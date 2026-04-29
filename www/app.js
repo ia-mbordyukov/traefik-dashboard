@@ -14,7 +14,11 @@ async function fetchRouters() {
     const res = await fetch('/api/http/routers?per_page=1000&page=1');
     if (!res.ok) throw new Error(`API returned ${res.status} ${res.statusText}`);
     allRouters = await res.json();
-    allRouters.sort((a, b) => a.name.localeCompare(b.name));
+    allRouters.sort((a, b) => {
+      const ra = (a.service || '').split('').reverse().join('');
+      const rb = (b.service || '').split('').reverse().join('');
+      return ra.localeCompare(rb);
+    });
 
     const query = document.getElementById('search').value;
     applyFilter(query);
