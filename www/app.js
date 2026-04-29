@@ -1,14 +1,16 @@
 let allRouters = [];
 let toastTimer = null;
 
-async function fetchRouters() {
+async function fetchRouters(silent = false) {
   const loading  = document.getElementById('loading');
   const errorMsg = document.getElementById('error-msg');
   const tableWrap = document.getElementById('table-wrap');
 
-  loading.classList.remove('hidden');
-  tableWrap.classList.add('hidden');
-  errorMsg.classList.add('hidden');
+  if (!silent) {
+    loading.classList.remove('hidden');
+    tableWrap.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+  }
 
   try {
     const res = await fetch('/api/http/routers?per_page=1000&page=1');
@@ -23,12 +25,16 @@ async function fetchRouters() {
     const query = document.getElementById('search').value;
     applyFilter(query);
 
-    loading.classList.add('hidden');
-    tableWrap.classList.remove('hidden');
+    if (!silent) {
+      loading.classList.add('hidden');
+      tableWrap.classList.remove('hidden');
+    }
   } catch (err) {
-    loading.classList.add('hidden');
-    errorMsg.classList.remove('hidden');
-    errorMsg.textContent = `Failed to load routers: ${err.message}`;
+    if (!silent) {
+      loading.classList.add('hidden');
+      errorMsg.classList.remove('hidden');
+      errorMsg.textContent = `Failed to load routers: ${err.message}`;
+    }
   }
 }
 
@@ -140,3 +146,4 @@ document.getElementById('search').addEventListener('input', e => applyFilter(e.t
 document.getElementById('refresh-btn').addEventListener('click', fetchRouters);
 
 fetchRouters();
+setInterval(() => fetchRouters(true), 10000);
