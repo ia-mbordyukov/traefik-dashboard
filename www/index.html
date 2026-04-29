@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traefik Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <polygon points="12,6 18,9.5 18,16.5 12,20 6,16.5 6,9.5" fill="currentColor" opacity="0.3"/>
+        </svg>
+        <span>Traefik</span>
+      </div>
+      <h1>HTTP Routers</h1>
+      <div class="header-actions">
+        <input id="search" class="search-input" type="text" placeholder="Search by name, rule, service…">
+        <button id="refresh-btn" class="btn btn-secondary">&#x21bb; Refresh</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-value" id="total-count">—</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value success" id="enabled-count">—</span>
+        <span class="stat-label">Enabled</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value warning" id="warning-count">—</span>
+        <span class="stat-label">Warnings</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value error" id="error-count">—</span>
+        <span class="stat-label">Errors</span>
+      </div>
+    </div>
+
+    <div id="loading" class="state-msg">Loading routers…</div>
+    <div id="error-msg" class="state-msg error hidden"></div>
+
+    <div id="table-wrap" class="hidden">
+      <table class="routers-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>URL</th>
+<th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="routers-body"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
